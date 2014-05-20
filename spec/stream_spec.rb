@@ -33,6 +33,7 @@ describe "Sensu::Logger::Stream" do
     file_contents.should match(/timestamp/)
     file_contents.should match(/"message":"some info"/)
     file_contents.should match(/"foo":"bar"/)
+    @stream.reopen("/untouchable.log")
     @stream.info("some info", {:foo => "bar"}).should be_true
   end
 

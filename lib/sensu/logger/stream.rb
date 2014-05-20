@@ -77,7 +77,7 @@ module Sensu
             STDERR.reopen(STDOUT)
           else
             error("log file is not writable", {
-              :log_file => file
+              :log_file => target
             })
           end
         end
