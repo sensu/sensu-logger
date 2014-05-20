@@ -90,7 +90,13 @@ module Sensu
       def setup_signal_traps
         if Signal.list.include?("TRAP")
           Signal.trap("TRAP") do
-            @level = @level == :info ? :debug : :info
+            @level = case @level
+            when :debug
+              @previous_level || :info
+            else
+              @previous_level = @level
+              :debug
+            end
           end
         end
         if Signal.list.include?("USR2")
