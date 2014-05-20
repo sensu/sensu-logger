@@ -60,6 +60,7 @@ describe "Sensu::Logger::Stream" do
     @stream.debug("some debug info", {:foo => "bar"}).should be_false
     @stream.info("some info", {:foo => "bar"}).should be_false
     @stream.warn("a warning", {:foo => "bar"}).should be_true
+    @stream.reopen(STDOUT)
     Process.kill("USR2", Process.pid)
     sleep 0.5
     @stream.error("an error", {:foo => "bar"}).should be_true
@@ -76,17 +77,34 @@ describe "Sensu::Logger::Stream" do
       @stream.error("an error", {:foo => "bar"}).should be_true
       timer(1) do
         @stream.reopen(stdout)
-        expected = <<-EOS
-          {"level":"info","message":"some info","foo":"bar"}
-          {"level":"warn","message":"a warning","foo":"bar"}
-          {"level":"error","message":"an error","foo":"bar"}
-        EOS
-        expected.gsub!(/^\s+/, "")
+        expected = [
+          {:level => "info", :message => "some info", :foo => "bar"},
+          {:level => "warn", :message => "a warning", :foo => "bar"},
+          {:level => "error", :message => "an error", :foo => "bar"}
+        ]
         file_contents = IO.read(file.path)
-        without_timestamps = file_contents.gsub(/"timestamp":"[^"]+",/, "")
-        without_timestamps.should eq(expected)
+        parsed_contents = file_contents.lines.map do |line|
+          parsed_line = MultiJson.load(line, :symbolize_keys => true)
+          parsed_line.delete(:timestamp)
+          parsed_line
+        end
+        parsed_contents.should eq(expected)
         async_done
       end
     end
+  end
+
+  it "can write remaining log events to a log file when the eventmachine reactor stops" do
+    stdout = STDOUT.dup
+    file = Tempfile.new("sensu-logger")
+    async_wrapper do
+      @stream.reopen(file.path)
+      1000.times do
+        @stream.info("some info", {:foo => "bar"}).should be_true
+      end
+      EM.stop
+    end
+    @stream.reopen(stdout)
+    IO.read(file.path).split("\n").size.should eq(1000)
   end
 end
