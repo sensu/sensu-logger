@@ -10,60 +10,60 @@ describe "Sensu::Logger::Stream" do
   end
 
   it "can log events with different levels" do
-    @stream.debug("some debug info", {:foo => "bar"}).should be_false
-    @stream.info("some info", {:foo => "bar"}).should be_true
-    @stream.warn("a warning", {:foo => "bar"}).should be_true
-    @stream.error("an error", {:foo => "bar"}).should be_true
-    @stream.fatal("something exploded", {:foo => "bar"}).should be_true
+    expect(@stream.debug("some debug info", {:foo => "bar"})).to be(false)
+    expect(@stream.info("some info", {:foo => "bar"})).to be(true)
+    expect(@stream.warn("a warning", {:foo => "bar"})).to be(true)
+    expect(@stream.error("an error", {:foo => "bar"})).to be(true)
+    expect(@stream.fatal("something exploded", {:foo => "bar"})).to be(true)
     @stream.level = :debug
-    @stream.debug("some debug info", {:foo => "bar"}).should be_true
-    @stream.info("some info", {:foo => "bar"}).should be_true
+    expect(@stream.debug("some debug info", {:foo => "bar"})).to be(true)
+    expect(@stream.info("some info", {:foo => "bar"})).to be(true)
     @stream.level = :warn
-    @stream.info("some info", {:foo => "bar"}).should be_false
-    @stream.warn("a warning", {:foo => "bar"}).should be_true
+    expect(@stream.info("some info", {:foo => "bar"})).to be(false)
+    expect(@stream.warn("a warning", {:foo => "bar"})).to be(true)
   end
 
   it "can reopen STDERR/STDOUT and redirect them to a log file" do
     stdout = STDOUT.dup
     file = Tempfile.new("sensu-logger")
     @stream.reopen(file.path)
-    @stream.info("some info", {:foo => "bar"}).should be_true
+    expect(@stream.info("some info", {:foo => "bar"})).to be(true)
     @stream.reopen(stdout)
     file_contents = IO.read(file.path)
-    file_contents.should match(/timestamp/)
-    file_contents.should match(/"message":"some info"/)
-    file_contents.should match(/"foo":"bar"/)
+    expect(file_contents).to match(/timestamp/)
+    expect(file_contents).to match(/"message":"some info"/)
+    expect(file_contents).to match(/"foo":"bar"/)
     @stream.reopen("/untouchable.log")
-    @stream.info("some info", {:foo => "bar"}).should be_true
+    expect(@stream.info("some info", {:foo => "bar"})).to be(true)
   end
 
   it "can setup signal traps to toggle debug logging and reopen the log file" do
     @stream.setup_signal_traps
-    @stream.debug("some debug info", {:foo => "bar"}).should be_false
-    @stream.info("some info", {:foo => "bar"}).should be_true
+    expect(@stream.debug("some debug info", {:foo => "bar"})).to be(false)
+    expect(@stream.info("some info", {:foo => "bar"})).to be(true)
     Process.kill("TRAP", Process.pid)
     sleep 0.5
-    @stream.debug("some debug info", {:foo => "bar"}).should be_true
-    @stream.info("some info", {:foo => "bar"}).should be_true
+    expect(@stream.debug("some debug info", {:foo => "bar"})).to be(true)
+    expect(@stream.info("some info", {:foo => "bar"})).to be(true)
     Process.kill("TRAP", Process.pid)
     sleep 0.5
-    @stream.debug("some debug info", {:foo => "bar"}).should be_false
-    @stream.info("some info", {:foo => "bar"}).should be_true
+    expect(@stream.debug("some debug info", {:foo => "bar"})).to be(false)
+    expect(@stream.info("some info", {:foo => "bar"})).to be(true)
     @stream.level = :warn
-    @stream.info("some info", {:foo => "bar"}).should be_false
+    expect(@stream.info("some info", {:foo => "bar"})).to be(false)
     Process.kill("TRAP", Process.pid)
     sleep 0.5
-    @stream.debug("some debug info", {:foo => "bar"}).should be_true
-    @stream.info("some info", {:foo => "bar"}).should be_true
+    expect(@stream.debug("some debug info", {:foo => "bar"})).to be(true)
+    expect(@stream.info("some info", {:foo => "bar"})).to be(true)
     Process.kill("TRAP", Process.pid)
     sleep 0.5
-    @stream.debug("some debug info", {:foo => "bar"}).should be_false
-    @stream.info("some info", {:foo => "bar"}).should be_false
-    @stream.warn("a warning", {:foo => "bar"}).should be_true
+    expect(@stream.debug("some debug info", {:foo => "bar"})).to be(false)
+    expect(@stream.info("some info", {:foo => "bar"})).to be(false)
+    expect(@stream.warn("a warning", {:foo => "bar"})).to be(true)
     @stream.reopen(STDOUT)
     Process.kill("USR2", Process.pid)
     sleep 0.5
-    @stream.error("an error", {:foo => "bar"}).should be_true
+    expect(@stream.error("an error", {:foo => "bar"})).to be(true)
   end
 
   it "can operate as expected within the eventmachine reactor" do
@@ -71,10 +71,10 @@ describe "Sensu::Logger::Stream" do
       stdout = STDOUT.dup
       file = Tempfile.new("sensu-logger")
       @stream.reopen(file.path)
-      @stream.debug("some debug info", {:foo => "bar"}).should be_false
-      @stream.info("some info", {:foo => "bar"}).should be_true
-      @stream.warn("a warning", {:foo => "bar"}).should be_true
-      @stream.error("an error", {:foo => "bar"}).should be_true
+      expect(@stream.debug("some debug info", {:foo => "bar"})).to be(false)
+      expect(@stream.info("some info", {:foo => "bar"})).to be(true)
+      expect(@stream.warn("a warning", {:foo => "bar"})).to be(true)
+      expect(@stream.error("an error", {:foo => "bar"})).to be(true)
       timer(1) do
         @stream.reopen(stdout)
         expected = [
@@ -88,7 +88,7 @@ describe "Sensu::Logger::Stream" do
           parsed_line.delete(:timestamp)
           parsed_line
         end
-        parsed_contents.should eq(expected)
+        expect(parsed_contents).to eq(expected)
         async_done
       end
     end
@@ -100,11 +100,11 @@ describe "Sensu::Logger::Stream" do
     async_wrapper do
       @stream.reopen(file.path)
       1000.times do
-        @stream.info("some info", {:foo => "bar"}).should be_true
+        expect(@stream.info("some info", {:foo => "bar"})).to be(true)
       end
       EM.stop
     end
     @stream.reopen(stdout)
-    IO.read(file.path).split("\n").size.should eq(1000)
+    expect(IO.read(file.path).split("\n").size).to eq(1000)
   end
 end
