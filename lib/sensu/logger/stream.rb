@@ -1,7 +1,5 @@
-gem "sensu-em"
-
-require "eventmachine"
 require "multi_json"
+require "eventmachine"
 require "sensu/logger/constants"
 
 module Sensu
