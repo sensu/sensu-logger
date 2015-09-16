@@ -1,3 +1,4 @@
+sudo: false
 language: ruby
 rvm:
   - 1.8.7
@@ -5,7 +6,10 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.0
-  - jruby
+  - jruby-1.7.18
+notifications:
+  irc:
+    - "irc.freenode.net#sensu"
 addons:
   code_climate:
     repo_token: fb78330fb5aad0202b51f0fe25829ecb08229dc8236fb5fd573cd95997603527
