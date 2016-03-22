@@ -84,7 +84,7 @@ describe "Sensu::Logger::Stream" do
         ]
         file_contents = IO.read(file.path)
         parsed_contents = file_contents.lines.map do |line|
-          parsed_line = MultiJson.load(line, :symbolize_keys => true)
+          parsed_line = Sensu::JSON.load(line)
           parsed_line.delete(:timestamp)
           parsed_line
         end

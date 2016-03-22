@@ -1,4 +1,4 @@
-require "multi_json"
+require "sensu/json"
 require "eventmachine"
 require "sensu/logger/constants"
 
@@ -122,7 +122,7 @@ module Sensu
         if data.is_a?(Hash)
           event.merge!(data)
         end
-        MultiJson.dump(event)
+        Sensu::JSON.dump(event)
       end
 
       # Schedule a log event write, pushing the JSON log event into
