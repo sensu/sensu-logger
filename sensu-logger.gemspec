@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/sensu/sensu-logger"
   spec.license       = "MIT"
 
-  spec.files         = Dir.glob("lib/**/*") + %w[sensu-logger.gemspec README.md LICENSE.md]
+  spec.files         = Dir.glob("lib/**/*") + %w[sensu-logger.gemspec README.md LICENSE.txt]
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
