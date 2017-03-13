@@ -1,9 +1,8 @@
 # Sensu::Logger
 
 [![Build Status](https://travis-ci.org/sensu/sensu-logger.svg?branch=master)](https://travis-ci.org/sensu/sensu-logger)
-
-[![Code Climate](https://codeclimate.com/github/sensu/sensu-logger.png)](https://codeclimate.com/github/sensu/sensu-logger)
-[![Code Climate Coverage](https://codeclimate.com/github/sensu/sensu-logger/coverage.png)](https://codeclimate.com/github/sensu/sensu-logger)
+![Gem Version](https://img.shields.io/gem/v/sensu.svg)
+![MIT Licensed](https://img.shields.io/github/license/sensu/sensu.svg)
 
 ## Installation
 
