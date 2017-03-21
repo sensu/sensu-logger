@@ -1,7 +1,7 @@
 # Sensu::Logger
 
 [![Build Status](https://travis-ci.org/sensu/sensu-logger.svg?branch=master)](https://travis-ci.org/sensu/sensu-logger)
-![Gem Version](https://img.shields.io/gem/v/sensu.svg)
+![Gem Version](https://img.shields.io/gem/v/sensu-logger.svg)
 ![MIT Licensed](https://img.shields.io/github/license/sensu/sensu.svg)
 
 ## Installation
