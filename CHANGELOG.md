@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/sensu/sensu-logger/tree/HEAD)
-
-[Full Changelog](https://github.com/sensu/sensu-logger/compare/v1.2.1...HEAD)
+## [v1.2.2](https://github.com/sensu/sensu-logger/tree/v1.2.2) (2018-03-07)
+[Full Changelog](https://github.com/sensu/sensu-logger/compare/v1.2.1...v1.2.2)
 
 **Closed issues:**
 
