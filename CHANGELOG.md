@@ -4,8 +4,14 @@
 
 [Full Changelog](https://github.com/sensu/sensu-logger/compare/v1.2.1...HEAD)
 
+**Closed issues:**
+
+- Make the log format configurable [\#1](https://github.com/sensu/sensu-logger/issues/1)
+
 **Merged pull requests:**
 
+- Sign the sensu-logger Ruby gem [\#8](https://github.com/sensu/sensu-logger/pull/8) ([portertech](https://github.com/portertech))
+- Implement automated changelog generation [\#7](https://github.com/sensu/sensu-logger/pull/7) ([cwjohnston](https://github.com/cwjohnston))
 - Add ruby 2.4.0 to .travis.yml [\#6](https://github.com/sensu/sensu-logger/pull/6) ([amdprophet](https://github.com/amdprophet))
 - Add Ruby 2.4.0 to .travis.yml [\#5](https://github.com/sensu/sensu-logger/pull/5) ([cwjohnston](https://github.com/cwjohnston))
 
